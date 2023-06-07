@@ -1,0 +1,109 @@
+'use client';
+
+import { useCreateAsset, Player } from "@livepeer/react"
+import { useState, useRef, useMemo } from 'react';
+import Button from "@/components/Button";
+
+export default function Upload() {
+    const [video, setVideo] = useState(null)
+    const fileInput = useRef(null)
+    // Player
+    const [url, setUrl] = useState('')
+
+    const {
+        mutate: createAsset,
+        data: assets,
+        status,
+        progress,
+        error,
+    } = useCreateAsset(
+        video 
+        ? {
+            sources: [
+                {
+                    name: video.name,
+                    file: video,
+                    storage: {
+                        ipfs: true,
+                        metadata: {
+                            name: 'interesting video',
+                            description: 'a great description',
+                        }
+                    }
+                }
+            ]
+        } 
+        : null,
+    )
+
+    const chooseAsset = async () => {
+        // When user clicks the button, open the file input dialog
+        fileInput.current?.click();
+    }
+
+    const onChange = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setVideo(file);
+    }
+
+    const uploadAsset = async () => {
+        await createAsset?.();
+    }
+
+    const progressFormatted = useMemo(
+        () =>
+          progress?.[0].phase === 'failed'
+            ? 'Failed to process video.'
+            : progress?.[0].phase === 'waiting'
+            ? 'Waiting'
+            : progress?.[0].phase === 'uploading'
+            ? `Uploading: ${Math.round(progress?.[0]?.progress * 100)}%`
+            : progress?.[0].phase === 'processing'
+            ? `Processing: ${Math.round(progress?.[0].progress * 100)}%`
+            : null,
+        [progress],
+    )
+
+    return (
+        <div className="flex flex-col justify-center items-center h-screen">
+            {video ? <p>{video.name}</p> : <p>Select a video file to upload.</p>}
+            <Button onClick={video ? uploadAsset : chooseAsset}>
+                {video ? 'Upload the asset' : 'Choose an asset'}
+            </Button>
+            <input 
+                type="file"
+                ref={fileInput}
+                className="hidden"
+                onChange={onChange}
+            />
+            <p>{progressFormatted}</p>
+            {
+                assets?.map((asset) => (
+                    <div key={asset.id}>
+                        <div>
+                            <div>Asset Name: {asset?.name}</div>
+                            <div>Playback URL: {asset?.playbackUrl}</div>
+                            <div>IPFS CID: {asset?.storage?.ipfs?.gatewayUrl ?? 'None'}</div>
+                        </div>
+                    </div>
+                ))
+            }
+            {/* Player */}
+            <p>IPFS URL</p>
+            <input type='text' placeholder='ipfs://' onChange={(e) => setUrl(e.target.value)} />
+            {url && <p>Provided value is not a valid identifier</p>}
+            {
+                url && (
+                    <Player 
+                    title={url}
+                    src={url}
+                    autoPlay
+                    muted
+                    autoUrlUpload={{ fallback: true, ipfsGateway: 'https://w3s.link'}}
+                    />
+                )
+            }
+        </div>
+    )
+}
