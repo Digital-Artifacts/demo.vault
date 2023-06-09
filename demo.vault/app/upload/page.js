@@ -4,7 +4,33 @@ import { useCreateAsset, Player } from "@livepeer/react"
 import { useState, useRef, useMemo } from 'react';
 import Button from "@/components/Button";
 
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
+
+import { DemoNFT_Address, abi} from "@/constants/demonft";
+
 export default function Upload() {
+    const { address } = useAccount();
+
+    const { config } = usePrepareContractWrite({
+        // Nft contract address
+        address: DemoNFT_Address,
+        abi: abi,
+        functionName: 'mintNft',
+        args:
+            address && assets?.storage?.ipfs?.nftMetadata?.url
+            ? [address, assets?.storage?.ipfs?.nftMetadata?.url]
+            : undefined,
+        enabled: Boolean(address && assets?.storage?.ipfs?.nftMetadata?.url)
+    })
+
+    const {
+        data: contractWriteData,
+        isSuccess,
+        write,
+        error: contractWriteError,
+    } = useContractWrite(config)
+
     const [video, setVideo] = useState(null)
     const fileInput = useRef(null)
     // Player
@@ -67,6 +93,7 @@ export default function Upload() {
 
     return (
         <div className="flex flex-col justify-center items-center h-screen">
+            <ConnectButton />
             {video ? <p>{video.name}</p> : <p>Select a video file to upload.</p>}
             <Button onClick={video ? uploadAsset : chooseAsset}>
                 {video ? 'Upload the asset' : 'Choose an asset'}
@@ -103,6 +130,15 @@ export default function Upload() {
                     autoUrlUpload={{ fallback: true, ipfsGateway: 'https://w3s.link'}}
                     />
                 )
+            }
+            {/* Mint NFT */}
+            {
+                address && assets
+                ?
+                <button onClick={() => {
+                    write();
+                }}>Mint NFT</button>
+                : null
             }
         </div>
     )
