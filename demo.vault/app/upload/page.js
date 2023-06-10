@@ -3,25 +3,26 @@
 import { useCreateAsset, Player } from "@livepeer/react"
 import { useState, useRef, useMemo } from 'react';
 import Button from "@/components/Button";
-
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
-
 import { DemoNFT_Address, abi} from "@/constants/demonft";
+import TestAsset from '../../mock/asset.json';
 
 export default function Upload() {
     const { address } = useAccount();
+
+    // Testing asset for minting function
+    const [testAsset, setTestAsset] = useState(TestAsset)
 
     const { config } = usePrepareContractWrite({
         // Nft contract address
         address: DemoNFT_Address,
         abi: abi,
-        functionName: 'mintNft',
-        args:
-            address && assets?.storage?.ipfs?.nftMetadata?.url
-            ? [address, assets?.storage?.ipfs?.nftMetadata?.url]
-            : undefined,
-        enabled: Boolean(address && assets?.storage?.ipfs?.nftMetadata?.url)
+        functionName: 'mintNFT',
+        args: [
+            address,
+            testAsset[0]?.storage.ipfs,
+        ],
     })
 
     const {
@@ -110,6 +111,7 @@ export default function Upload() {
                     <div key={asset.id}>
                         <div>
                             <div>Asset Name: {asset?.name}</div>
+                            <div>Asset Description: {asset?.storage?.metadata?.description}</div>
                             <div>Playback URL: {asset?.playbackUrl}</div>
                             <div>IPFS CID: {asset?.storage?.ipfs?.gatewayUrl ?? 'None'}</div>
                         </div>
@@ -133,11 +135,23 @@ export default function Upload() {
             }
             {/* Mint NFT */}
             {
-                address && assets
+                address && testAsset
                 ?
-                <button onClick={() => {
-                    write();
-                }}>Mint NFT</button>
+                <button onClick={async () => write()}>Mint NFT</button>
+                : null
+            }
+            {
+                contractWriteData?.hash && isSuccess
+                ? (
+                    <a
+                        target="_blank"
+                        href={`https://mumbai.polygonscan.com/tx/${contractWriteData.hash}`}
+                    >
+                        <Button>View Mint Transaction</Button>
+                    </a>
+                )
+                : contractWriteError 
+                ? <p>{contractWriteError.message}</p>
                 : null
             }
         </div>

@@ -1,0 +1,57 @@
+[
+    {
+        "id": "cd212782-b1ed-4490-b426-89aac929a52d",
+        "hash": [
+            {
+                "hash": "59f17e8bf77656134284567902731462",
+                "algorithm": "md5"
+            },
+            {
+                "hash": "6f4d8bd34dc10e558ba613ab7de56d5fb4be2316bbfc864cb1411ccac5d2e633",
+                "algorithm": "sha256"
+            }
+        ],
+        "name": "Quik_2016-09-11_18-36-14.mov",
+        "size": 130728640,
+        "source": {
+            "type": "directUpload"
+        },
+        "status": {
+            "phase": "ready",
+            "updatedAt": 1686374014093
+        },
+        "userId": "f34abccf-1736-48d4-be00-2a4bf73fe03a",
+        "storage": {
+            "ipfs": {
+                "cid": "bafybeicz6tjb5xrks5xwema7r2twggegxhrzad5eq5szl3bkixekgl5gqu",
+                "spec": {
+                    "nftMetadata": {
+                        "name": "interesting video",
+                        "description": "a great description"
+                    }
+                },
+                "nftMetadata": {
+                    "cid": "bafkreigds7da6jgmfqtaztcl5n22zhdffbgycxfn3uoywqaqwvrj5lqemm",
+                    "url": "ipfs://bafkreigds7da6jgmfqtaztcl5n22zhdffbgycxfn3uoywqaqwvrj5lqemm",
+                    "gatewayUrl": "https://ipfs.livepeer.studio/ipfs/bafkreigds7da6jgmfqtaztcl5n22zhdffbgycxfn3uoywqaqwvrj5lqemm"
+                },
+                "url": "ipfs://bafybeicz6tjb5xrks5xwema7r2twggegxhrzad5eq5szl3bkixekgl5gqu",
+                "gatewayUrl": "https://ipfs.livepeer.studio/ipfs/bafybeicz6tjb5xrks5xwema7r2twggegxhrzad5eq5szl3bkixekgl5gqu"
+            },
+            "status": {
+                "phase": "ready",
+                "tasks": {
+                    "last": "073165ae-297b-4914-aecd-fe5dc2873597"
+                }
+            }
+        },
+        "createdAt": 1686373734026,
+        "videoSpec": {
+            "format": "mp4",
+            "duration": 97.896
+        },
+        "playbackId": "cd218oyi2a220rep",
+        "playbackUrl": "https://lp-playback.com/hls/cd218oyi2a220rep/index.m3u8",
+        "downloadUrl": "https://lp-playback.com/hls/cd218oyi2a220rep/video"
+    }
+]
