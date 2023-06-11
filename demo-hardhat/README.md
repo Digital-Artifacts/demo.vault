@@ -108,3 +108,7 @@ Under contracts, within the `filecoin-api-examples` sub-directory, you will find
 NFT Contract Address: 0xA13C674F8A8715E157BA42237A6b1Dff24EE274F
 the filecoin version: t410fue6got4kq4k6cv52iirxu2y574so4j2pd6exxmy
 
+raig
+NFT contract address: 0x31b4BC9806410B4D0689821D9ac0a108388054e8
+tx: 0xabbf223a48ced4a8997e972ac4bafdaff4feb4ecdb62efdcc65565f4c0aac94f
+eth address used: 0x4D1B23AAd1Bf54aE376ce66c8Cac0F41Df5c5b19

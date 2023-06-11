@@ -16,7 +16,7 @@ export default function Upload() {
 
     const { config } = usePrepareContractWrite({
         // Nft contract address
-        address: DemoNFT_Address,
+        address: "0x31b4BC9806410B4D0689821D9ac0a108388054e8",
         abi: abi,
         functionName: 'mintNFT',
         args: [
