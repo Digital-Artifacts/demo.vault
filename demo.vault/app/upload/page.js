@@ -1,39 +1,20 @@
 'use client';
 
-import { useCreateAsset, Player } from "@livepeer/react"
+import { useCreateAsset, Player, useAsset, useUpdateAsset } from "@livepeer/react"
 import { useState, useRef, useMemo } from 'react';
 import Button from "@/components/Button";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
-import { DemoNFT_Address, abi} from "@/constants/demonft";
-import TestAsset from '../../mock/asset.json';
+import Navbar from "@/components/Navbar";
+// import TestAsset from '../../mock/asset.json';
 
 export default function Upload() {
-    const { address } = useAccount();
-
-    // Testing asset for minting function
-    const [testAsset, setTestAsset] = useState(TestAsset)
-
-    const { config } = usePrepareContractWrite({
-        // Nft contract address
-        address: "0x31b4BC9806410B4D0689821D9ac0a108388054e8",
-        abi: abi,
-        functionName: 'mintNFT',
-        args: [
-            address,
-            testAsset[0]?.storage.ipfs,
-        ],
-    })
-
-    const {
-        data: contractWriteData,
-        isSuccess,
-        write,
-        error: contractWriteError,
-    } = useContractWrite(config)
-
+    // creating asset
     const [video, setVideo] = useState(null)
     const fileInput = useRef(null)
+    //updating asset
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [assetId, setAssetId] = useState("")
+
     // Player
     const [url, setUrl] = useState('')
 
@@ -50,13 +31,6 @@ export default function Upload() {
                 {
                     name: video.name,
                     file: video,
-                    storage: {
-                        ipfs: true,
-                        metadata: {
-                            name: 'interesting video',
-                            description: 'a great description',
-                        }
-                    }
                 }
             ]
         } 
@@ -92,68 +66,104 @@ export default function Upload() {
         [progress],
     )
 
+    const { data: asset } = useAsset({
+        assetId,
+    })
+
+    const {
+        data: updatedAsset,
+        mutate: updateAsset,
+        statusUpdate,
+        errorUpdate,
+    } = useUpdateAsset({
+        assetId,
+        name: name,
+        storage: {
+            ipfs: true,
+            metadata: {
+                name: name,
+                description: description,
+            },
+        }
+    })
+
     return (
-        <div className="flex flex-col justify-center items-center h-screen">
-            <ConnectButton />
-            {video ? <p>{video.name}</p> : <p>Select a video file to upload.</p>}
-            <Button onClick={video ? uploadAsset : chooseAsset}>
-                {video ? 'Upload the asset' : 'Choose an asset'}
-            </Button>
-            <input 
-                type="file"
-                ref={fileInput}
-                className="hidden"
-                onChange={onChange}
-            />
-            <p>{progressFormatted}</p>
-            {
-                assets?.map((asset) => (
-                    <div key={asset.id}>
-                        <div>
-                            <div>Asset Name: {asset?.name}</div>
-                            <div>Asset Description: {asset?.storage?.metadata?.description}</div>
-                            <div>Playback URL: {asset?.playbackUrl}</div>
-                            <div>IPFS CID: {asset?.storage?.ipfs?.gatewayUrl ?? 'None'}</div>
-                        </div>
-                    </div>
-                ))
-            }
-            {/* Player */}
-            <p>IPFS URL</p>
-            <input type='text' placeholder='ipfs://' onChange={(e) => setUrl(e.target.value)} />
-            {url && <p>Provided value is not a valid identifier</p>}
-            {
-                url && (
-                    <Player 
-                    title={url}
-                    src={url}
-                    autoPlay
-                    muted
-                    autoUrlUpload={{ fallback: true, ipfsGateway: 'https://w3s.link'}}
+        <>
+            <Navbar />
+            <div className="flex flex-col justify-center items-center">
+                <div className="border-2 m-5 p-10">
+                    <h1 className='font-bold'>Step 1</h1>
+                    <h1>Upload video into Livepeer</h1>
+                    {video ? <p>{video.name}</p> : <p>Select a video file to upload.</p>}
+                    <Button onClick={video ? uploadAsset : chooseAsset}>
+                        {video ? 'Upload the asset' : 'Choose an asset'}
+                    </Button>
+                    <input 
+                        type="file"
+                        ref={fileInput}
+                        className="hidden"
+                        onChange={onChange}
                     />
-                )
-            }
-            {/* Mint NFT */}
-            {
-                address && testAsset
-                ?
-                <button onClick={async () => write()}>Mint NFT</button>
-                : null
-            }
-            {
-                contractWriteData?.hash && isSuccess
-                ? (
-                    <a
-                        target="_blank"
-                        href={`https://mumbai.polygonscan.com/tx/${contractWriteData.hash}`}
-                    >
-                        <Button>View Mint Transaction</Button>
-                    </a>
-                )
-                : contractWriteError 
-                ? <p>{contractWriteError.message}</p>
-                : null
-            }
-        </div>
+                    <p>{progressFormatted}</p>
+                    {
+                        assets?.map((asset) => (
+                            <div key={asset.id}>
+                                <div>
+                                    <div>Asset Name: {asset?.name}</div>
+                                    <div>Playback URL: {asset?.playbackUrl}</div>
+                                    <div>Asset id: {asset?.id}</div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+
+
+                {/* Update Asset with IPFS metadata info */}
+                <div className='border-2 m-3 p-10'>
+                    <h1 className='font-bold'>Step 2</h1>
+                    <h1>Update the metadata info</h1>
+                    <form className='flex flex-col'>
+                        <label>Enter Asset id</label>
+                        <input className="border-2" type="text" value={assetId} onChange={(e) => setAssetId(e.target.value)}/>
+                        <label>Enter NFT name</label>
+                        <input className="border-2" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <label>Enter NFT description</label>
+                        <input className="border-2" type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
+                        <Button
+                            disabled={statusUpdate === 'loading'}
+                            onClick={() => {
+                                updateAsset?.();
+                            }}
+                        >Upload to IPFS
+                        </Button>
+                    </form>
+                    {
+                        asset &&
+                        <>
+                            <div>Asset name: {asset?.name}</div>
+                            <div>Asset description: {asset?.description}</div>
+                            <div>IPFS url: {asset?.storage?.ipfs?.url}</div>
+                        </>
+                    }
+                    {statusUpdate && <div>{statusUpdate.message}</div>}
+                    {errorUpdate && <div>{errorUpdate.message}</div>}
+                </div>
+
+        
+                {/* Player */}
+                {
+                    asset && (
+                        <Player 
+                        title={asset?.name}
+                        playbackId={asset?.playbackId}
+                        autoPlay
+                        muted
+                        autoUrlUpload={{ fallback: true, ipfsGateway: 'https://w3s.link'}}
+                        />
+                    )
+                }
+            </div>
+        </>
     )
 }
