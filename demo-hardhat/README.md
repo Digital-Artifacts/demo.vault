@@ -105,10 +105,17 @@ Under contracts, within the `basic-deal-client` sub-directory, you will find a f
 
 Under contracts, within the `filecoin-api-examples` sub-directory, you will find a file called `deal-rewarder.sol`. This is a basic example contract that uses the Filecoin.sol API's to create bounties for specific data to be stored on the Filecoin blockchain. This is intended to be an example to illustrate how you can use the Filecoin APIs to do some cool functionality. To learn more about this contract feel free to [checkout the original Foundry project](https://github.com/lotus-web3/deal-bounty-contract) which includes a detailed readme.
 
-NFT Contract Address: 0xA13C674F8A8715E157BA42237A6b1Dff24EE274F
+
+Anyone can mint!
+NFT Contract Address: 0x762353AdF1342ba85f6dDEac0446E2DA43ab84bf
+
+
+<!-- NFT Contract Address: 0xA13C674F8A8715E157BA42237A6b1Dff24EE274F
 the filecoin version: t410fue6got4kq4k6cv52iirxu2y574so4j2pd6exxmy
 
 raig
 NFT contract address: 0x31b4BC9806410B4D0689821D9ac0a108388054e8
 tx: 0xabbf223a48ced4a8997e972ac4bafdaff4feb4ecdb62efdcc65565f4c0aac94f
-eth address used: 0x4D1B23AAd1Bf54aE376ce66c8Cac0F41Df5c5b19
+eth address used: 0x4D1B23AAd1Bf54aE376ce66c8Cac0F41Df5c5b19 -->
+
+

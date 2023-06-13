@@ -5,7 +5,7 @@ import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 import { abi } from '@/constants/demonft';
 import livePeerAsset_test from '../mock/livepeerAssetEx.json';
 
-const DemoNFT_Address = "0x31b4BC9806410B4D0689821D9ac0a108388054e8";
+const DemoNFT_Address = "0x762353AdF1342ba85f6dDEac0446E2DA43ab84bf";
 
 export default function Card({ address }) {
 

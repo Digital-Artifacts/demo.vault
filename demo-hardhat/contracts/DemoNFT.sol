@@ -13,11 +13,10 @@ contract DemoNFT is ERC721URIStorage, Ownable {
     Counters.Counter private _tokenIds;
     mapping(uint256 => uint256) private _nftPrices;
 
-    constructor() ERC721("DemoNFT", "NFT") {}
+    constructor() ERC721("DemoNFT", "DT") {}
 
     function mintNFT(address recipient, string memory tokenURI)
         public
-        onlyOwner
         returns (uint256)
     {
         _tokenIds.increment();
@@ -51,7 +50,7 @@ contract DemoNFT is ERC721URIStorage, Ownable {
         return _nftPrices[tokenId];
     }
 
-    function setNFTPrice(uint256 tokenId, uint256 price) public onlyOwner {
+    function setNFTPrice(uint256 tokenId, uint256 price) public {
         require(_exists(tokenId), "Invalid token");
         _nftPrices[tokenId] = price;
     }
