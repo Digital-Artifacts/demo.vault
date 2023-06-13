@@ -1,7 +1,7 @@
 'use client';
 
 import { useCreateAsset, Player, useAsset, useUpdateAsset } from "@livepeer/react"
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import Button from "@/components/Button";
 import Navbar from "@/components/Navbar";
 // import TestAsset from '../../mock/asset.json';
@@ -14,6 +14,7 @@ export default function Upload() {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [assetId, setAssetId] = useState("")
+    const [returnVideo, setReturnVideo] = useState("")
 
     // Player
     const [url, setUrl] = useState('')
@@ -125,7 +126,9 @@ export default function Upload() {
                     <h1>Update the metadata info</h1>
                     <form className='flex flex-col'>
                         <label>Enter Asset id</label>
-                        <input className="border-2" type="text" value={assetId} onChange={(e) => setAssetId(e.target.value)}/>
+                        <input className="border-2" type="text" value={assetId} onChange={(e) => {
+                            setAssetId(e.target.value)
+                        }}/>
                         <label>Enter NFT name</label>
                         <input className="border-2" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
                         <label>Enter NFT description</label>
@@ -139,17 +142,22 @@ export default function Upload() {
                         </Button>
                     </form>
                     {
-                        asset &&
+                        updatedAsset &&
                         <>
-                            <div>Asset name: {asset?.name}</div>
-                            <div>Asset description: {asset?.description}</div>
-                            <div>IPFS url: {asset?.storage?.ipfs?.url}</div>
+                            <div>Asset name: {updatedAsset?.name}</div>
+                            <div>Asset description: {updatedAsset?.description}</div>
+                            <div>IPFS url: {updatedAsset?.storage?.ipfs?.url}</div>
                         </>
                     }
                     {statusUpdate && <div>{statusUpdate.message}</div>}
                     {errorUpdate && <div>{errorUpdate.message}</div>}
                 </div>
-
+                {
+                    asset && 
+                    <pre>
+                        <code>{JSON.stringify(asset?.storage.ipfs, null, 2)}</code>
+                    </pre>
+                }
         
                 {/* Player */}
                 {
