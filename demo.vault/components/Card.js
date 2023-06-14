@@ -32,7 +32,7 @@ export default function Card({ address, demos }) {
             <a href="#">
                 {/* nft player */}
                 <Player
-                    title='test video'
+                    title={demos?.spec.nftMetadata.name}
                     src={demos?.url}
                     autoPlay
                     muted
@@ -41,11 +41,11 @@ export default function Card({ address, demos }) {
             <div className="px-5 pb-5 pt-5">
                 <a href="#">
                     {/* nft title */}
-                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">NFT TITLE</h5>
+                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{demos?.spec?.nftMetadata.name}</h5>
                 </a>
                 {/* nft description */}
                 <div className="flex items-center mt-3 mb-5">
-                    <p>NFT DESCRIPTION</p>
+                    <p>{demos?.spec?.nftMetadata.description}</p>
                 </div>
                 {/* nft price */}
                 <div className="flex items-center justify-between">
