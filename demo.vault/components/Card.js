@@ -5,9 +5,10 @@ import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 import { abi } from '@/constants/demonft';
 import livePeerAsset_test from '../mock/livepeerAssetEx.json';
 
+
 const DemoNFT_Address = "0x762353AdF1342ba85f6dDEac0446E2DA43ab84bf";
 
-export default function Card({ address }) {
+export default function Card({ address, demos }) {
 
     const { config } = usePrepareContractWrite({
         address: DemoNFT_Address,
@@ -15,7 +16,7 @@ export default function Card({ address }) {
         functionName: 'mintNFT',
         args: [
             address,
-            livePeerAsset_test
+            demos
         ]
     })
 
@@ -32,7 +33,7 @@ export default function Card({ address }) {
                 {/* nft player */}
                 <Player
                     title='test video'
-                    src={livePeerAsset_test.properties.video}
+                    src={demos?.url}
                     autoPlay
                     muted
                 />

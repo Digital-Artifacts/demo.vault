@@ -155,7 +155,7 @@ export default function Upload() {
                 {
                     asset && 
                     <pre>
-                        <code>{JSON.stringify(asset?.storage.ipfs, null, 2)}</code>
+                        <code>{JSON.stringify(asset?.storage?.ipfs, null, 2)}</code>
                     </pre>
                 }
         
