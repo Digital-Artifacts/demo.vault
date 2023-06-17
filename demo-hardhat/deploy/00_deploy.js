@@ -15,10 +15,18 @@ module.exports = async ({ deployments }) => {
 
     
     // deploy NFTContract
-    const DemoNFT = await deploy("DemoNFT", {
+    // const DemoNFT = await deploy("DemoNFT", {
+    //   from: wallet.address,
+    //   log: true
+    // });
+
+    await deploy("EncryptedFileAccess", {
       from: wallet.address,
-      log: true
+      args: [100],
+      log: true,
     });
+
+
 
     
     // //deploy Simplecoin

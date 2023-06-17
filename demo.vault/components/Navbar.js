@@ -11,6 +11,9 @@ export default function Navbar() {
             <Link className="font-bold text-xl" href='/upload'>
                 Upload
             </Link>
+            <Link className="font-bold text-xl" href='/upload'>
+                Vault
+            </Link>
             <ConnectButton />
         </nav>
     )
