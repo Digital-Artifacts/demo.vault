@@ -8,9 +8,9 @@ We also have a work-in-progress encrypt vault feature that allows devs to upload
 Our hypothesis is that demos are digital artifacts worth collecting because they underpin the very beginning of most social innovation especially in the tech space. Demo.vault gallery will allow people to tap into the current digital revolution by allowing them collect demos of some of the most innovative products ever made as NFTs. With the vault feature we intend to build out a DAO which will ensure a circular economy where data is traded, curated and preserved for future use. All of this done in an accessible way focussed on the lovers and users of data.
 
 ## HOW IT'S MADE
-Demo.Vault is currently bootstrapped using Liverpeer's framework, we have built on top of their existing sdk solutions which allows for video streaming, uploading and mintng. This allows users to come to our page and mint their favourite demos immediately. 
-All uploads have been done on to IPFS and deployed to FVM's Filecoin Calibration Testnet. Contract code is written in Solidity and the frontend is displayed using React and rendered using Next.js. Wallet's UX has been provided using RainbowKit and Wagmi.
-The vault feature is built on Spheron which handles the storage, encryption and decryption of datasets. The encryption and decryption itself is built on Lit protocol, both of these applications were integrated using their sdks. The datasets are decrypted and downloaded for a fee which is programmed via smart contract deployed to the FEVM network. 
+* Demo.Vault is currently bootstrapped using Liverpeer's framework, we have built on top of their existing sdk solutions which allows for video streaming, uploading and mintng. This allows users to come to our page and mint their favourite demos immediately. 
+* All uploads have been done on to IPFS and deployed to FVM's Filecoin Calibration Testnet. Contract code is written in Solidity and the frontend is displayed using React and rendered using Next.js. Wallet's UX has been provided using RainbowKit and Wagmi.
+* The vault feature is built on Spheron which handles the storage, encryption and decryption of datasets. The encryption and decryption itself is built on Lit protocol, both of these applications were integrated using their sdks. The datasets are decrypted and downloaded for a fee which is programmed via smart contract deployed to the FEVM network. 
 
 
 ## WHO WILL FIND IT USEFUL?
